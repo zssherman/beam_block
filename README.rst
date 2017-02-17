@@ -21,4 +21,4 @@ Sci., 17, 863-871, doi:10.5194/hess-17-863-2013
 Helmus, J.J. & Collis, S.M., (2016). The Python ARM Radar Toolkit
 (Py-ART), a Library for Working with Weather Radar Data in the
 Python Programming Language. Journal of Open Research Software.
-4(1), p.e25. DOI: http://doi.org/10.5334/jors.119
+"~/beam_block/README.rst" 24L, 864C
