@@ -1,8 +1,19 @@
 Beam Block
 ==========
 
-Using wradlib and pyart to create a empty radar object with added partial
-beam block(PBB) and cumulative beam block(CBB) data and flags.
+Using wradlib and pyart to obtain partial beam block (PBB) and cumulative beam block (CBB) data. The data then can be used to create flags and also can be added as fields to an empty radar object or an existing radar object, if the existing radar object fields have the same shape as the beamblock data and flag fields.
+
+Note: This project is still a work in progress.
+
+Dependencies
+------------
+
+- `Py-ART <http://arm-doe.github.io/pyart/>`_
+- `Wradlib <http://wradlib.org/wradlib-docs/latest/index.html>`_
+
+Also needs a special environment due to gdal::
+
+        conda create -n gdal_test -c conda-forge python=3.5 basemap gdal
 
 References
 ----------
