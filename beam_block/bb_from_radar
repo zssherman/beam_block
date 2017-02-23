@@ -1,17 +1,5 @@
 #!/usr/bin/env python
 
-"""
-To use bb_from_radar.py as a command
-If anaconda3 is install:
-     Move bb_from_radar.py to /home/user/anconda3/bin/
-If not:
-    vim ~/.bashrc
-    Add `export PATH=/filelocation:$PATH`
-
-Remove.py from end of filename
-In bash type `chmod -x /home/user/anaconda3/bin/bb_from_radar`
-
-"""
 # Note docstring below is as if beam_block will be added
 # to Py-ART in the future.
 
@@ -129,11 +117,12 @@ def beam_block(radar, tif_file,
             lon, lat, alt = wrl.georef.polar2lonlatalt_n(
                 coord[..., 0], np.degrees(coord[..., 1]),
                 coord[..., 2], sitecoords)
-
-        if radar.scan_type is 'rhi':
+        elif radar.scan_type is 'rhi':
             lon = radar.gate_longitude['data'][index_start:index_end +1]
             lat = radar.gate_latitude['data'][index_start:index_end +1]
             alt = radar.gate_altitude['data'][index_start:index_end +1]
+        else:
+            raise ValueError('Invalid scan type, must be ppi or rhi.')
 
         x_pol, y_pol = wrl.georef.reproject(
             lon, lat, projection_target=proj_raster)
