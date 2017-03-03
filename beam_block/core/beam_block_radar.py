@@ -2,7 +2,7 @@
 # to Py-ART in the future.
 
 """
-pyart.retrieve.beam_block_calc
+pyart.retrieve.beam_block_radar
 =======================================
 
 Calculates partial beam block(PBB) and cumulative beam block(CBB)
@@ -15,7 +15,7 @@ is filled with beam block data.
     :toctreeL generated/
     :template: dev_template.rst
 
-    beam_block
+    beam_block_radar
     beam_block_flag
     _arrays_to_dict
     _flags_to_dict
@@ -26,8 +26,8 @@ import numpy as np
 import wradlib as wrl
 
 
-def beam_block(radar, tif_file,
-               beam_width=1.0):
+def beam_block_radar(radar, tif_file,
+                     beam_width=1.0):
     """
     Beam Block Calculation
 
