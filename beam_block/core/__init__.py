@@ -17,4 +17,4 @@ Core Functions
 
 """
 
-from .bb_from_radar import *
+from .beam_block_radar import beam_block
