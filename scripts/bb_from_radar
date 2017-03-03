@@ -29,7 +29,7 @@ def main():
 
     radar = pyart.io.read(args.radar_file)
 
-    pbb_all, cbb_all = beam_block_radar.beam_block(
+    pbb_all, cbb_all = beam_block_radar.beam_block_radar(
         radar, args.tif_file, 1.0)
 
     pbb_flags, cbb_flags = beam_block_radar._beam_block_flag(
