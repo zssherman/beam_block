@@ -55,6 +55,7 @@ def setup_package():
         license=LICENSE,
         platforms=PLATFORMS,
         configuration=configuration,
+        include_package_data=True,
       #  install_requires=INSTALL_REQUIRES,
         test_suite=TEST_SUITE,
         tests_require=TESTS_REQUIRE,
