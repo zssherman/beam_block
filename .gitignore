@@ -1,0 +1,5 @@
+# Files to ignore for tracking.
+
+*.pyc
+*.swp
+notebooks/.ipynb_checkpoints
