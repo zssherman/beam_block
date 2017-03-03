@@ -22,7 +22,6 @@ is filled with beam block data.
 
 """
 
-import pyart
 import numpy as np
 import wradlib as wrl
 
@@ -103,7 +102,7 @@ def beam_block(radar, tif_file,
         rg, azg = np.meshgrid(_range, azimuths)
         rg, eleg = np.meshgrid(_range, elevs)
         lon, lat, alt = wrl.georef.polar2lonlatalt_n(
-            rg, azg, eleg, sitecoords) 
+            rg, azg, eleg, sitecoords)
 
         x_pol, y_pol = wrl.georef.reproject(
             lon, lat, projection_target=proj_raster)
