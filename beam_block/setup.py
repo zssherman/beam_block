@@ -1,3 +1,5 @@
+""" Configuration of beam_block subpackages."""
+
 from numpy.distutils.core import setup
 from numpy.distutils.misc_util import Configuration
 
