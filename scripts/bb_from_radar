@@ -9,7 +9,9 @@ import pyart
 from beam_block.core import beam_block_radar
 
 def main():
-    """ main function. """
+    """ Reads all prior functions and produces pbb, cbb and flags.
+    The data is then put into dictionaries and added to a radar object,
+    which then the radar object is written to netCDF. """
     # Creating func and argument parser for terminal use of this file.
     parser = argparse.ArgumentParser(
         description='Create a radar object with beam block fields.')
@@ -20,10 +22,7 @@ def main():
     parser.add_argument(
         'out_file', type=str, help='Out file path and name to use.')
     args = parser.parse_args()
-    
-    """ Reads all prior functions and produces pbb, cbb and flags.
-    The data is then put into dictionaries and added to a radar object.
-    The radar object is then is written to netCDF. """
+
     print('')
     print('## Creating a radar object with beam block fields')
     print('')
