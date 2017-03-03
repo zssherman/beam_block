@@ -12,18 +12,24 @@ DOCLINES = __doc__.split("\n")
 
 import os
 import sys
+import glob
+
 from numpy.distutils.core import setup
 from numpy.distutils.misc_util import Configuration
 
 NAME = 'beam_block'
 MAINTAINER = 'Zach Sherman'
 DESCRIPTION = DOCLINES[0]
+# INSTALL_REQUIRES = ['pyart', 'wradlib']
 LONG_DESCRIPTION = "\n".join(DOCLINES[2:])
 LICENSE = 'BSD'
 PLATFORMS = "Linux"
 MAJOR = 0
 MINOR = 1
 MICRO = 0
+SCRIPTS = glob.glob('scripts/*')
+TEST_SUITE = 'nose.collector'
+TESTS_REQUIRE = ['nose']
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
 def configuration(parent_package='', top_path=None):
@@ -49,6 +55,10 @@ def setup_package():
         license=LICENSE,
         platforms=PLATFORMS,
         configuration=configuration,
+      #  install_requires=INSTALL_REQUIRES,
+        test_suite=TEST_SUITE,
+        tests_require=TESTS_REQUIRE,
+        scripts=SCRIPTS,
     )
 
 if __name__ == '__main__':
