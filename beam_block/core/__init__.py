@@ -12,9 +12,11 @@ Core Functions
 
 .. autosummary::
     :toctree: generated/
-
-    Beam Block from Radar
+    
+    beam_block_radar
+    beam_block_json
 
 """
 
-from .beam_block_radar import beam_block
+from .beam_block_radar import beam_block_radar
+from .beam_block_json import beam_block_json
