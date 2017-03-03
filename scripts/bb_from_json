@@ -1,12 +1,12 @@
 #! /usr/bin/env python
-""" Creates a beam_block.nc from radar_file.nc and tif_file.tif. """
+""" Calculates Beam Block from json_file and tif_file. """
 
 from __future__ import print_function
 
 import argparse
-import pyart
+# import pyart
 
-from beam_block.core import beam_block_radar
+from beam_block.core import beam_block_json
 
 def main():
     """ Reads all prior functions and produces pbb, cbb and flags.
@@ -16,7 +16,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Create a radar object with beam block fields.')
     parser.add_argument(
-        'radar_file', type=str, help='Radar file to use for calculations.')
+        'json_file', type=str, help='JSON file to use for calculations.')
     parser.add_argument(
         'tif_file', type=str, help='Tif file to use as terrain data.')
     parser.add_argument(
@@ -27,29 +27,13 @@ def main():
     print('## Creating a radar object with beam block fields')
     print('')
 
-    radar = pyart.io.read(args.radar_file)
+    # radar = pyart.io.read(args.radar_file)
 
-    pbb_all, cbb_all = beam_block_radar.beam_block(
-        radar, args.tif_file, 1.0)
+    pbb_all, cbb_all = beam_block_json.beam_block_json(
+        args.json, args.tif_file, 1.0)
 
-    pbb_flags, cbb_flags = beam_block_radar._beam_block_flag(
+    pbb_flags, cbb_flags = beam_block_json._beam_block_flag(
         pbb_all, cbb_all, 0.0, 0.0)
-
-    pbb_dict, cbb_dict = beam_block_radar._arrays_to_dict(
-        pbb_all, cbb_all)
-    pbb_flag_dict, cbb_flag_dict = beam_block_radar._flags_to_dict(
-        pbb_flags, cbb_flags)
-
-    radar.add_field('partial_beam_block',
-                    pbb_dict, replace_existing=True)
-    radar.add_field('cumulative_beam_block',
-                    cbb_dict, replace_existing=True)
-    radar.add_field('partial_beam_block_flag',
-                    pbb_flag_dict, replace_existing=True)
-    radar.add_field('cumulative_beam_block_flag',
-                    cbb_flag_dict, replace_existing=True)
-
-    pyart.io.write_cfradial(args.out_file, radar)
 
 if __name__ == '__main__':
     main()
