@@ -1,6 +1,9 @@
 # Note docstring below is as if beam_block will be added
 # to Py-ART in the future.
 
+# This code is based on code and help from Kai Muehlbauer,
+# Nick Guy and Scott Collis.
+
 """
 pyart.retrieve.beam_block_calc
 =======================================
@@ -140,8 +143,8 @@ def beam_block(radar, tif_file,
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def _beam_block_flag(pbb_all, cbb_all, pbb_threshold,
-                     cbb_threshold):
+def beam_block_flag(pbb_all, cbb_all, pbb_threshold,
+                    cbb_threshold):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
     to create and array of 1s and 0s, 1 is a flagged gate
