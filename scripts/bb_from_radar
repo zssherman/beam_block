@@ -16,7 +16,8 @@ def main():
     parser = argparse.ArgumentParser(
         description='Create a radar object with beam block fields.')
     parser.add_argument(
-        'beam_width', type=str, help='Half power beam width in degrees.')
+        'beam_width', type=float, default=1.0,
+        help='Half power beam width in degrees.')
     parser.add_argument(
         'radar_file', type=str, help='Radar file to use for calculations.')
     parser.add_argument(
