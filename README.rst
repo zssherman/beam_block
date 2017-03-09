@@ -38,6 +38,11 @@ Then to run beam block::
 
         bb_from_radar <radar_file> <tif_file> <out_file>
 
+There is also an optional beam_width argument, with a default value of 1.0. To
+choose a beam_width value, the terminal command now becomes::
+
+        bb_from_radar -bw <beam_width_float> <radar_file> <tif_file> <out_file>
+
 Future
 ------
 
