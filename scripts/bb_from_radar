@@ -16,6 +16,8 @@ def main():
     parser = argparse.ArgumentParser(
         description='Create a radar object with beam block fields.')
     parser.add_argument(
+        'beam_width', type=str, help='Half power beam width in degrees.')
+    parser.add_argument(
         'radar_file', type=str, help='Radar file to use for calculations.')
     parser.add_argument(
         'tif_file', type=str, help='Tif file to use as terrain data.')
@@ -30,7 +32,7 @@ def main():
     radar = pyart.io.read(args.radar_file)
 
     pbb_all, cbb_all = beam_block_radar.beam_block(
-        radar, args.tif_file, 1.0)
+        radar, args.tif_file, args.beam_width)
 
     pbb_flags, cbb_flags = beam_block_radar._beam_block_flag(
         pbb_all, cbb_all, 0.0, 0.0)
