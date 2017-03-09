@@ -35,7 +35,7 @@ def main():
     pbb_all, cbb_all = beam_block_radar.beam_block(
         radar, args.tif_file, args.beam_width)
 
-    pbb_flags, cbb_flags = beam_block_radar._beam_block_flag(
+    pbb_flags, cbb_flags = beam_block_radar.beam_block_flag(
         pbb_all, cbb_all, 0.0, 0.0)
 
     pbb_dict, cbb_dict = beam_block_radar._arrays_to_dict(
