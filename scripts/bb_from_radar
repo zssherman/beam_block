@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 """ Creates a beam_block.nc from radar_file.nc and tif_file.tif. """
 
 from __future__ import print_function
