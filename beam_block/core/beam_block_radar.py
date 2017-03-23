@@ -1,6 +1,9 @@
 # Note docstring below is as if beam_block will be added
 # to Py-ART in the future.
 
+# This code is based on code and help from Kai Muehlbauer,
+# Nick Guy and Scott Collis.
+
 """
 pyart.retrieve.beam_block_radar
 =======================================
@@ -8,17 +11,14 @@ pyart.retrieve.beam_block_radar
 Calculates partial beam block(PBB) and cumulative beam block(CBB)
 by using wradlib's beamblock and geotiff functions. PBB and CBB
 are then used to created flags when a certain beam block fraction
-is passed. Empty radar object is created using Py-ART and then
-is filled with beam block data.
+is passed.
 
 .. autosummary::
     :toctreeL generated/
     :template: dev_template.rst
 
     beam_block_radar
-    beam_block_flag
-    _arrays_to_dict
-    _flags_to_dict
+    beam_block_radar_flags
 
 """
 
@@ -29,7 +29,7 @@ import wradlib as wrl
 def beam_block_radar(radar, tif_file,
                      beam_width=1.0):
     """
-    Beam Block Calculation
+    Beam Block Radar Calculation
 
     Parameters
     ----------
@@ -47,12 +47,12 @@ def beam_block_radar(radar, tif_file,
 
     Returns
     -------
-    pbb : array
+    pbb_all : array
         Array of partial beam block fractions for each
-        gate in each ray.
-    cbb: array
+        gate in all sweeps.
+    cbb_all : array
         Array of cumulative beam block fractions for
-        each gate in each ray.
+        each gate in all sweeps.
 
     References
     ----------
@@ -140,8 +140,8 @@ def beam_block_radar(radar, tif_file,
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def _beam_block_flag(pbb_all, cbb_all, pbb_threshold,
-                     cbb_threshold):
+def beam_block_radar_flags(pbb_all, cbb_all, pbb_threshold,
+                           cbb_threshold):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
     to create and array of 1s and 0s, 1 is a flagged gate
@@ -154,45 +154,3 @@ def _beam_block_flag(pbb_all, cbb_all, pbb_threshold,
     cbb_flags[cbb_all > cbb_threshold] = 1
     cbb_flags[cbb_all < cbb_threshold] = 0
     return pbb_flags, cbb_flags
-
-def _arrays_to_dict(pbb_all, cbb_all):
-    """ Function that takes the PBB and CBB arrays
-    and turns them into dictionaries to be used and added
-    to the pyart radar object. """
-    pbb_dict = {}
-    pbb_dict['coordinates'] = 'elevation, azimuth, range'
-    pbb_dict['units'] = 'unitless'
-    pbb_dict['data'] = pbb_all
-    pbb_dict['standard_name'] = 'partial_beam_block'
-    pbb_dict['long_name'] = 'Partial Beam Block Fraction'
-    pbb_dict['comment'] = 'Partial beam block fraction due to terrain'
-
-    cbb_dict = {}
-    cbb_dict['coordinates'] = 'elevation, azimuth, range'
-    cbb_dict['units'] = 'unitless'
-    cbb_dict['data'] = cbb_all
-    cbb_dict['standard_name'] = 'cumulative_beam_block'
-    cbb_dict['long_name'] = 'Cumulative Beam Block Fraction'
-    cbb_dict['comment'] = 'Cumulative beam block fraction due to terrain'
-    return pbb_dict, cbb_dict
-
-def _flags_to_dict(pbb_flags, cbb_flags):
-    """ Function that takes the PBB_flag and CBB_flag
-    arrays and turns them into dictionaries to be used
-    and added to the pyart radar object. """
-    pbb_flag_dict = {}
-    pbb_flag_dict['units'] = 'unitless'
-    pbb_flag_dict['data'] = pbb_flags
-    pbb_flag_dict['standard_name'] = 'partial_beam_block_flag'
-    pbb_flag_dict['long_name'] = 'Partial Beam Block Flag'
-    pbb_flag_dict['comment'] = 'Partial beam block fraction flag, ' \
-                            '1 for flagged values, 0 for non-flagged.'
-
-    cbb_flag_dict = {}
-    cbb_flag_dict['units'] = 'unitless'
-    cbb_flag_dict['data'] = cbb_flags
-    cbb_flag_dict['standard_name'] = 'cumulative_beam_block_flag'
-    cbb_flag_dict['long_name'] = 'Cumulative Beam Block Flag'
-    cbb_flag_dict['comment'] = 'Cumulative beam block fraction flag, ' \
-                            '1 for flagged values, 0 for non-flagged.'
-    return pbb_flag_dict, cbb_flag_dict
