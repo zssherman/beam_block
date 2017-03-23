@@ -13,10 +13,11 @@ Core Functions
 .. autosummary::
     :toctree: generated/
 
-    Beam Block from Radar
+    beam_block_radar
+    beam_block_radar_flags
 
 """
 
-from .beam_block_radar import beam_block
+from .beam_block_radar import beam_block_radar, beam_block_radar_flags
 
 __all__ = [s for s in dir() if not s.startswith('_')]
