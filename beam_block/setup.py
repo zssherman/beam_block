@@ -8,6 +8,7 @@ def configuration(parent_package='', top_path=None):
     config = Configuration('beam_block', parent_package, top_path)
     config.add_subpackage('config')
     config.add_subpackage('core')
+    config.add_subpackage('retrieve')
     return config
 
 if __name__ == '__main__':
