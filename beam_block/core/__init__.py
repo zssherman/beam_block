@@ -13,14 +13,14 @@ Core Functions
 .. autosummary::
     :toctree: generated/
 
-    beam_block_radar
-    beam_block_radar_flags
-    beam_block_json
-    beam_block_json_flags
+    beam_block
+    beam_block_flags
+    json_beam_block
+    json_beam_block_flags
 
 """
 
-from .beam_block_radar import beam_block_radar, beam_block_radar_flags
-from .beam_block_json import beam_block_json, beam_block_json_flags
+from .beam_block_radar import beam_block, beam_block_flags
+from .beam_block_json import json_beam_block, json_beam_block_flags
 
 __all__ = [s for s in dir() if not s.startswith('_')]

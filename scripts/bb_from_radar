@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 """ Creates a beam_block.nc from radar_file.nc and tif_file.tif. """
 
-from __future__ import print_function
-
 import argparse
 import pyart
 
@@ -33,10 +31,10 @@ def main():
 
     radar = pyart.io.read(args.radar_file)
 
-    pbb_all, cbb_all = beam_block_radar.beam_block_radar(
+    pbb_all, cbb_all = beam_block_radar.beam_block(
         radar, args.tif_file, beam_width=args.beam_width)
 
-    pbb_flags, cbb_flags = beam_block_radar.beam_block_radar_flags(
+    pbb_flags, cbb_flags = beam_block_radar.beam_block_flags(
         pbb_all, cbb_all, 0.0, 0.0)
 
     pbb_dict = dict_config.pbb_to_dict(pbb_all)
