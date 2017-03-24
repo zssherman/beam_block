@@ -17,8 +17,8 @@ is passed.
     :toctreeL generated/
     :template: dev_template.rst
 
-    beam_block_json
-    beam_block_json_flags
+    json_beam_block
+    json_beam_block_flags
 
 """
 
@@ -27,7 +27,7 @@ import numpy as np
 import wradlib as wrl
 
 
-def beam_block_json(json_data, tif_file,
+def json_beam_block(json_data, tif_file,
                     beam_width=1.0):
     """
     Beam Block Json Calculation
@@ -76,35 +76,37 @@ def beam_block_json(json_data, tif_file,
 
     """
 
+    variables = json_data['variables'] 
+
     # Opening the tif file and getting the values ready to be
     # converted into polar values.
     rasterfile = tif_file
     data_raster = wrl.io.open_raster(rasterfile)
     proj_raster = wrl.georef.wkt_to_osr(data_raster.GetProjection())
     rastercoords, rastervalues = wrl.io.read_raster_data(rasterfile)
-    sitecoords = (np.float(json_data['longitude']['data']),
-                  np.float(json_data['latitude']['data']),
-                  np.float(json_data['altitude']['data']))
+    sitecoords = (np.float(variables['longitude']['data']),
+                  np.float(variables['latitude']['data']),
+                  np.float(variables['altitude']['data']))
 
     pbb_arrays = []
     cbb_arrays = []
-    _range = np.array(json.loads(json_data['range']['data']))
+    _range = np.array(json.loads(variables['range']['data']))
     # Cycling through all sweeps in the radar object.
     beamradius = wrl.util.half_power_radius(_range, beam_width)
     for i in range(
             len(np.array(
-                json.loads(json_data['sweep_start_ray_index']['data'])))):
+                json.loads(variables['sweep_start_ray_index']['data'])))):
         index_start = np.array(
-            json.loads(json_data['sweep_start_ray_index']['data']))[i]
+            json.loads(variables['sweep_start_ray_index']['data']))[i]
         index_end = np.array(
-            json.loads(json_data['sweep_end_ray_index']['data']))[i]
+            json.loads(variables['sweep_end_ray_index']['data']))[i]
 
         elevs = np.array(
             json.loads(
-                json_data['elevation']['data']))[index_start:index_end + 1]
+                variables['elevation']['data']))[index_start:index_end + 1]
         azimuths = np.array(
             json.loads(
-                json_data['azimuth']['data']))[index_start:index_end + 1]
+                variables['azimuth']['data']))[index_start:index_end + 1]
         rg, azg = np.meshgrid(_range, azimuths)
         rg, eleg = np.meshgrid(_range, elevs)
         lon, lat, alt = wrl.georef.polar2lonlatalt_n(
@@ -149,7 +151,7 @@ def beam_block_json(json_data, tif_file,
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def beam_block_json_flags(pbb_all, cbb_all, pbb_threshold=0.01,
+def json_beam_block_flags(pbb_all, cbb_all, pbb_threshold=0.01,
                           cbb_threshold=0.01):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
