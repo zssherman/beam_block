@@ -17,8 +17,8 @@ is passed.
     :toctreeL generated/
     :template: dev_template.rst
 
-    beam_block_radar
-    beam_block_radar_flags
+    beam_block
+    beam_block_flags
 
 """
 
@@ -26,8 +26,8 @@ import numpy as np
 import wradlib as wrl
 
 
-def beam_block_radar(radar, tif_file,
-                     beam_width=1.0):
+def beam_block(radar, tif_file,
+               beam_width=1.0):
     """
     Beam Block Radar Calculation
 
@@ -140,8 +140,8 @@ def beam_block_radar(radar, tif_file,
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def beam_block_radar_flags(pbb_all, cbb_all, pbb_threshold,
-                           cbb_threshold):
+def beam_block_flags(pbb_all, cbb_all, pbb_threshold,
+                     cbb_threshold):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
     to create and array of 1s and 0s, 1 is a flagged gate
