@@ -1,4 +1,4 @@
-#!/usr/bin/env gdal_test
+#!/usr/bin/env python
 """ Creates a beam_block.nc from json_file.json and tif_file.tif.  """
 
 from __future__ import print_function
@@ -34,12 +34,12 @@ def main():
     print('')
 
     with open(args.json_file) as data:
-        json_data = json.loads(data)
+        json_data = json.load(data)
 
-    pbb_all, cbb_all = beam_block_json(
+    pbb_all, cbb_all = beam_block_json.json_beam_block(
         json_data, args.tif_file, beam_width=args.beam_width)
 
-    pbb_flags, cbb_flags = beam_block_json_flags(
+    pbb_flags, cbb_flags = beam_block_json.json_beam_block_flags(
         pbb_all, cbb_all, 0.0, 0.0)
 
     pbb_dict = dict_config.pbb_to_dict(pbb_all)
