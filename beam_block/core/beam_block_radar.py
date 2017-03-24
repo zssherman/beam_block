@@ -140,8 +140,8 @@ def beam_block(radar, tif_file,
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def beam_block_flags(pbb_all, cbb_all, pbb_threshold,
-                     cbb_threshold):
+def beam_block_flags(pbb_all, cbb_all, pbb_threshold=0.01,
+                     cbb_threshold=0.01):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
     to create and array of 1s and 0s, 1 is a flagged gate
