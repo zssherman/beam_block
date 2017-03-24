@@ -1,3 +1,9 @@
+# Note docstring below is as if beam_block will be added
+# to Py-ART in the future.
+
+# This code is based on code and help from Kai Muehlbauer,
+# Nick Guy and Scott Collis.
+
 """
 pyart.retrieve.beam_block_jsom
 =======================================
@@ -5,15 +11,14 @@ pyart.retrieve.beam_block_jsom
 Calculates partial beam block(PBB) and cumulative beam block(CBB)
 by using wradlib's beamblock and geotiff functions. PBB and CBB
 are then used to created flags when a certain beam block fraction
-is passed. Empty radar object is created using Py-ART and then
-is filled with beam block data.
+is passed.
 
 .. autosummary::
     :toctreeL generated/
     :template: dev_template.rst
 
     beam_block_json
-    beam_block_flag
+    beam_block_json_flags
 
 """
 
@@ -22,15 +27,15 @@ import numpy as np
 import wradlib as wrl
 
 
-def beam_block_json(json_file, tif_file,
+def beam_block_json(json_data, tif_file,
                     beam_width=1.0):
     """
-    Beam Block Calculation
+    Beam Block Json Calculation
 
     Parameters
     ----------
-    json_file : string
-        Name of json file containing radar data.
+    json_data : Json
+        Json object used.
     tif_name : string
         Name of geotiff file to use for the
         calculation
@@ -43,12 +48,12 @@ def beam_block_json(json_file, tif_file,
 
     Returns
     -------
-    pbb : array
+    pbb_all : array
         Array of partial beam block fractions for each
-        gate in each ray.
-    cbb: array
+        gate in all sweeps.
+    cbb_all : array
         Array of cumulative beam block fractions for
-        each gate in each ray.
+        each gate in all sweeps.
 
     References
     ----------
@@ -71,9 +76,8 @@ def beam_block_json(json_file, tif_file,
 
     """
 
-    with open(json_file) as data:
-        json_data = json.load(data)
-
+    # Opening the tif file and getting the values ready to be
+    # converted into polar values.
     rasterfile = tif_file
     data_raster = wrl.io.open_raster(rasterfile)
     proj_raster = wrl.georef.wkt_to_osr(data_raster.GetProjection())
@@ -85,9 +89,11 @@ def beam_block_json(json_file, tif_file,
     pbb_arrays = []
     cbb_arrays = []
     _range = np.array(json.loads(json_data['range']['data']))
+    # Cycling through all sweeps in the radar object.
     beamradius = wrl.util.half_power_radius(_range, beam_width)
     for i in range(
-            len(np.array(json.loads(json_data['sweep_start_ray_index']['data'])))):
+            len(np.array(
+                json.loads(json_data['sweep_start_ray_index']['data'])))):
         index_start = np.array(
             json.loads(json_data['sweep_start_ray_index']['data']))[i]
         index_end = np.array(
@@ -108,49 +114,52 @@ def beam_block_json(json_file, tif_file,
             lon, lat, projection_target=proj_raster)
         polcoords = np.dstack((x_pol, y_pol))
         rlimits = (x_pol.min(), y_pol.min(), x_pol.max(), y_pol.max())
-        # Clip the region inside our bounding box
         ind = wrl.util.find_bbox_indices(rastercoords, rlimits)
         rastercoords = rastercoords[ind[1]:ind[3], ind[0]:ind[2], ...]
         rastervalues = rastervalues[ind[1]:ind[3], ind[0]:ind[2]]
-        # Map rastervalues to polar grid points
+
+        # Map rastervalues to polar grid points.
         polarvalues = wrl.ipol.cart2irregular_spline(
             rastercoords, rastervalues, polcoords)
 
+        # Calculate partial beam blockage.
         pbb = wrl.qual.beam_block_frac(polarvalues, alt, beamradius)
         pbb = np.ma.masked_invalid(pbb)
         pbb_arrays.append(pbb)
+
+        # Calculate cumulative beam blockage.
         maxindex = np.nanargmax(pbb, axis=1)
         cbb = np.copy(pbb)
-        # Iterate over all beams
+        # Iterate over all beams.
         for ii, index in enumerate(maxindex):
             premax = 0.
             for jj in range(index):
-                # Only iterate to max index to make this faster
+                # Only iterate to max index to make this faster.
                 if pbb[ii, jj] > premax:
                     cbb[ii, jj] = pbb[ii, jj]
                     premax = cbb[ii, jj]
                 else:
                     cbb[ii, jj] = premax
-            # beyond max index, everything is max anyway
+            # beyond max index, everything is max anyway.
             cbb[ii, index:] = pbb[ii, index]
         cbb_arrays.append(cbb)
+
+    # Stacks all sweeps blockage data.
     pbb_all = np.ma.concatenate(pbb_arrays)
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def _beam_block_flag(pbb_all, cbb_all, pbb_threshold,
-                     cbb_threshold):
+def beam_block_json_flags(pbb_all, cbb_all, pbb_threshold=0.01,
+                          cbb_threshold=0.01):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
     to create and array of 1s and 0s, 1 is a flagged gate
     where the fraction value is past the threshold. """
     pbb_flags = np.empty_like(pbb_all)
-    pbb_flags[pbb_all > 0.95] = 3
-    pbb_flags[(pbb_all > 0.05) & (pbb_all < 0.95)] = 2
-    pbb_flags[pbb_all < 0.05] = 0
+    pbb_flags[pbb_all > pbb_threshold] = 1
+    pbb_flags[pbb_all < pbb_threshold] = 0
 
     cbb_flags = np.empty_like(cbb_all)
-    cbb_flags[cbb_all > 0.95] = 3
-    cbb_flags[(cbb_all > 0.05) & (cbb_all < 0.95)] = 2
-    cbb_flags[cbb_all < 0.05] = 0
+    cbb_flags[cbb_all > cbb_threshold] = 1
+    cbb_flags[cbb_all < cbb_threshold] = 0
     return pbb_flags, cbb_flags
