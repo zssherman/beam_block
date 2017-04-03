@@ -47,6 +47,15 @@ choose a beam_width value, the terminal command now becomes::
 
         bb_from_radar -bw <beam_width_float> <radar_file> <tif_file> <out_file>
 
+GeoTIFF Data
+------------
+
+To obtain GeoTIFF data to be used in the beam blockage calculation,
+USGS (U.S. Geological Survey) `EarthExplorer <https://earthexplorer.usgs.gov/>`_
+can be used. Under Data Sets choose Digital Elevation and then SRTM (Shuttle
+Radar Topography Mission) and check the box for which SRTM data you would liked
+to be searched. Data that is search is within your search criteria.
+
 Future
 ------
 
