@@ -34,9 +34,13 @@ To run beam block in bash, first activate gdal_test environment::
 
         source activate gdal_test
 
-Then to run beam block::
+Then to run beam block based on a radar file::
 
         bb_from_radar <radar_file> <tif_file> <out_file>
+
+To run beam block based on a json file::
+
+        bb_from_json <json_file> <tif_file> <out_file>
 
 There is also an optional beam_width argument, with a default value of 1.0. To
 choose a beam_width value, the terminal command now becomes::
@@ -46,8 +50,14 @@ choose a beam_width value, the terminal command now becomes::
 Future
 ------
 
-Will be added a bb_from_json script to allow for a json_file input instead
-of a radar_file input.
+Will be adding a function that calculates the minimum elevation needed to
+achieve less than 0.01 CBB for every gate.
+
+Special Thanks
+--------------
+
+Special thanks to Kai Muehlbauer, Nick Guy, Scott Collis, and Jonathan Helmus
+for code help and advice!
 
 References
 ----------

@@ -15,9 +15,12 @@ Core Functions
 
     beam_block
     beam_block_flags
+    json_beam_block
+    json_beam_block_flags
 
 """
 
 from .beam_block_radar import beam_block, beam_block_flags
+from .beam_block_json import json_beam_block, json_beam_block_flags
 
 __all__ = [s for s in dir() if not s.startswith('_')]
