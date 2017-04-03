@@ -49,6 +49,12 @@ Future
 Will be added a bb_from_json script to allow for a json_file input instead
 of a radar_file input.
 
+Special Thanks
+--------------
+
+Special thanks to Kai Muehlbauer, Nick Guy, Scott Collis, and Jonathan Helmus
+for code help and advice!
+
 References
 ----------
 
