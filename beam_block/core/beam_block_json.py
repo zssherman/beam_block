@@ -5,7 +5,7 @@
 # Nick Guy and Scott Collis.
 
 """
-pyart.retrieve.beam_block_radar
+pyart.retrieve.beam_block_jsom
 =======================================
 
 Calculates partial beam block(PBB) and cumulative beam block(CBB)
@@ -17,24 +17,25 @@ is passed.
     :toctreeL generated/
     :template: dev_template.rst
 
-    beam_block
-    beam_block_flags
+    json_beam_block
+    json_beam_block_flags
 
 """
 
+import json
 import numpy as np
 import wradlib as wrl
 
 
-def beam_block(radar, tif_file,
-               beam_width=1.0):
+def json_beam_block(json_data, tif_file,
+                    beam_width=1.0):
     """
-    Beam Block Radar Calculation
+    Beam Block Json Calculation
 
     Parameters
     ----------
-    radar : Radar
-        Radar object used.
+    json_data : Json
+        Json object used.
     tif_name : string
         Name of geotiff file to use for the
         calculation
@@ -75,8 +76,7 @@ def beam_block(radar, tif_file,
 
     """
 
-    # Emptying the radar fields.
-    radar.fields.clear()
+    variables = json_data['variables'] 
 
     # Opening the tif file and getting the values ready to be
     # converted into polar values.
@@ -84,21 +84,29 @@ def beam_block(radar, tif_file,
     data_raster = wrl.io.open_raster(rasterfile)
     proj_raster = wrl.georef.wkt_to_osr(data_raster.GetProjection())
     rastercoords, rastervalues = wrl.io.read_raster_data(rasterfile)
-    sitecoords = (np.float(radar.longitude['data']),
-                  np.float(radar.latitude['data']),
-                  np.float(radar.altitude['data']))
+    sitecoords = (np.float(variables['longitude']['data']),
+                  np.float(variables['latitude']['data']),
+                  np.float(variables['altitude']['data']))
 
     pbb_arrays = []
     cbb_arrays = []
-    _range = radar.range['data']
-    beamradius = wrl.util.half_power_radius(_range, beam_width)
+    _range = np.array(json.loads(variables['range']['data']))
     # Cycling through all sweeps in the radar object.
-    for i in range(len(radar.sweep_start_ray_index['data'])):
-        index_start = radar.sweep_start_ray_index['data'][i]
-        index_end = radar.sweep_end_ray_index['data'][i]
+    beamradius = wrl.util.half_power_radius(_range, beam_width)
+    for i in range(
+            len(np.array(
+                json.loads(variables['sweep_start_ray_index']['data'])))):
+        index_start = np.array(
+            json.loads(variables['sweep_start_ray_index']['data']))[i]
+        index_end = np.array(
+            json.loads(variables['sweep_end_ray_index']['data']))[i]
 
-        elevs = radar.elevation['data'][index_start:index_end + 1]
-        azimuths = radar.azimuth['data'][index_start:index_end + 1]
+        elevs = np.array(
+            json.loads(
+                variables['elevation']['data']))[index_start:index_end + 1]
+        azimuths = np.array(
+            json.loads(
+                variables['azimuth']['data']))[index_start:index_end + 1]
         rg, azg = np.meshgrid(_range, azimuths)
         rg, eleg = np.meshgrid(_range, elevs)
         lon, lat, alt = wrl.georef.polar2lonlatalt_n(
@@ -112,36 +120,39 @@ def beam_block(radar, tif_file,
         rastercoords = rastercoords[ind[1]:ind[3], ind[0]:ind[2], ...]
         rastervalues = rastervalues[ind[1]:ind[3], ind[0]:ind[2]]
 
-        # Map rastervalues to polar grid points
+        # Map rastervalues to polar grid points.
         polarvalues = wrl.ipol.cart2irregular_spline(
             rastercoords, rastervalues, polcoords)
 
+        # Calculate partial beam blockage.
         pbb = wrl.qual.beam_block_frac(polarvalues, alt, beamradius)
         pbb = np.ma.masked_invalid(pbb)
         pbb_arrays.append(pbb)
 
+        # Calculate cumulative beam blockage.
         maxindex = np.nanargmax(pbb, axis=1)
         cbb = np.copy(pbb)
-        # Iterate over all beams
+        # Iterate over all beams.
         for ii, index in enumerate(maxindex):
             premax = 0.
             for jj in range(index):
-                # Only iterate to max index to make this faster
+                # Only iterate to max index to make this faster.
                 if pbb[ii, jj] > premax:
                     cbb[ii, jj] = pbb[ii, jj]
                     premax = cbb[ii, jj]
                 else:
                     cbb[ii, jj] = premax
-            # beyond max index, everything is max anyway
+            # beyond max index, everything is max anyway.
             cbb[ii, index:] = pbb[ii, index]
         cbb_arrays.append(cbb)
 
+    # Stacks all sweeps blockage data.
     pbb_all = np.ma.concatenate(pbb_arrays)
     cbb_all = np.ma.concatenate(cbb_arrays)
     return pbb_all, cbb_all
 
-def beam_block_flags(pbb_all, cbb_all, pbb_threshold=0.01,
-                     cbb_threshold=0.01):
+def json_beam_block_flags(pbb_all, cbb_all, pbb_threshold=0.01,
+                          cbb_threshold=0.01):
     """ Takes PBB and CBB arrays created from the
     beam_block function and user chosen thresholds
     to create and array of 1s and 0s, 1 is a flagged gate
