@@ -2,13 +2,13 @@
 
 import json
 import pyart
-import numpy
 from numpy.testing import assert_almost_equal
 
 import beam_block
 
 
 def test_json_beam_block():
+    """ Unit test for the beam_block_json.json_beam_block function. """
     json_file = beam_block.testing.SAMPLE_RADAR_JSON_FILE
     with open(json_file) as data:
         json_data = json.load(data)
@@ -28,6 +28,7 @@ def test_json_beam_block():
     assert_almost_equal(cbb_all, cbb_existing, 3)
 
 def test_json_beam_block_flags():
+    """ Unit test for the beam_block_json.json_beam_block_flags function. """
     radar_bb_data = pyart.io.read(
         beam_block.testing.SAMPLE_RADAR_JSON_TO_NC_FILE)
     pbb_existing = radar_bb_data.fields['partial_beam_block']['data']
