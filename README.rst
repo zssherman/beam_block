@@ -56,6 +56,31 @@ can be used. Under Data Sets choose Digital Elevation and then SRTM (Shuttle
 Radar Topography Mission) and check the box for which SRTM data you would liked
 to be searched. Data that is search is within your search criteria.
 
+Testing
+=======
+
+For unit tests in Beam Block, nosetests from the package `nose <http://nose.readthedocs.io/en/latest/>`_ is used.
+In order for nosetests to work with Beam Block, nose needs to be installed in
+the gdal_test environment. To do this in bash::
+
+        source activate gdal_test
+        pip install nose -I
+
+To then run the unit tests in Beam Block::
+
+        nosetests beam_block
+
+From inside the directory::
+
+        cd beam_block
+        nosetests
+
+If you would like to run nosetests only on a specific test file, for example
+test_beam_block_radar.py in the tests folder in the core subpackage, simply
+type::
+
+        nosetests '/home/zsherman/beam_block/beam_block/core/tests/test_beam_block_radar.py'
+
 Future
 ------
 
