@@ -1,9 +1,10 @@
 """ Setup for Core Subpackages. """
 
-from numpy.distutils.core import import setup
-from numpy.distutils.misc_util import import Configuration
+from numpy.distutils.core import setup
+from numpy.distutils.misc_util import Configuration
 
 def configuration(parent_package='', top_path=None):
+    """ Configuration of core subpackages. """
     config = Configuration('core', parent_package, top_path)
     config.add_data_dir('tests')
     return config
