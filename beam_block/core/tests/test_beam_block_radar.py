@@ -1,13 +1,13 @@
 """ Unit Tests for Beam Block's core/beam_block_radar.py module. """
 
 import pyart
-import numpy
 from numpy.testing import assert_almost_equal
 
 import beam_block
 
 
 def test_beam_block():
+    """ Unit test for the beam_block_radar.beam_block function. """
     radar = pyart.io.read(beam_block.testing.SAMPLE_RADAR_NC_FILE)
     tif_file = beam_block.testing.SAMPLE_TIF_FILE
     beam_width = 1.0
@@ -24,6 +24,7 @@ def test_beam_block():
     assert_almost_equal(cbb_all, cbb_existing, 3)
 
 def test_beam_block_flags():
+    """ Unit test for the beam_block_radar.beam_block_flags function. """
     radar_bb_data = pyart.io.read(
         beam_block.testing.SAMPLE_RADAR_BLOCK_DATA_FILE)
     pbb_existing = radar_bb_data.fields['partial_beam_block']['data']
