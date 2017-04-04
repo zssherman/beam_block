@@ -129,7 +129,8 @@ def json_beam_block(json_data, tif_file,
         pbb = np.ma.masked_invalid(pbb)
         pbb_arrays.append(pbb)
 
-        # Calculate cumulative beam blockage.
+        # The cbb code and comments were found in Wradlib and is currently
+        # being added into a Wradlib function wrl.qual.cum_beam_block_frac(PBB).
         maxindex = np.nanargmax(pbb, axis=1)
         cbb = np.copy(pbb)
         # Iterate over all beams.
@@ -142,7 +143,7 @@ def json_beam_block(json_data, tif_file,
                     premax = cbb[ii, jj]
                 else:
                     cbb[ii, jj] = premax
-            # beyond max index, everything is max anyway.
+            # Beyond max index, everything is max anyway.
             cbb[ii, index:] = pbb[ii, index]
         cbb_arrays.append(cbb)
 
