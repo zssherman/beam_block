@@ -2,6 +2,7 @@
 
 *.pyc
 *.swp
+*.ipynb
 .ipynb_checkpoints/
 build/
 notebooks/.ipynb_checkpoints
