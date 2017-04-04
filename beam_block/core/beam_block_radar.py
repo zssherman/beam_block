@@ -112,27 +112,30 @@ def beam_block(radar, tif_file,
         rastercoords = rastercoords[ind[1]:ind[3], ind[0]:ind[2], ...]
         rastervalues = rastervalues[ind[1]:ind[3], ind[0]:ind[2]]
 
-        # Map rastervalues to polar grid points
+        # Map rastervalues to polar grid points.
         polarvalues = wrl.ipol.cart2irregular_spline(
             rastercoords, rastervalues, polcoords)
 
+        # Calculates partial beam blockage.
         pbb = wrl.qual.beam_block_frac(polarvalues, alt, beamradius)
         pbb = np.ma.masked_invalid(pbb)
         pbb_arrays.append(pbb)
 
+        # The cbb code and comments were found in Wradlib and is currently
+        # being added into a Wradlib function wrl.qual.cum_beam_block_frac(PBB).
         maxindex = np.nanargmax(pbb, axis=1)
         cbb = np.copy(pbb)
         # Iterate over all beams
         for ii, index in enumerate(maxindex):
             premax = 0.
             for jj in range(index):
-                # Only iterate to max index to make this faster
+                # Only iterate to max index to make this faster.
                 if pbb[ii, jj] > premax:
                     cbb[ii, jj] = pbb[ii, jj]
                     premax = cbb[ii, jj]
                 else:
                     cbb[ii, jj] = premax
-            # beyond max index, everything is max anyway
+            # Beyond max index, everything is max anyway.
             cbb[ii, index:] = pbb[ii, index]
         cbb_arrays.append(cbb)
 

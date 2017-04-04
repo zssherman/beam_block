@@ -9,6 +9,7 @@ def configuration(parent_package='', top_path=None):
     config.add_subpackage('config')
     config.add_subpackage('core')
     config.add_subpackage('retrieve')
+    config.add_subpackage('testing')
     return config
 
 if __name__ == '__main__':

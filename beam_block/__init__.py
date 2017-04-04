@@ -8,3 +8,4 @@ Beam Block Subpackages
 from . import config
 from . import core
 from . import retrieve
+from . import testing
