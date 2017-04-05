@@ -24,7 +24,7 @@ cbb_flags_dict = dict_config.cbb_flags_to_dict(cbb_flags)
 
 def test_pbb_to_dict():
     """ Unit test for the dict_config.pbb_to_dict function. """
-    assert 'standard_name' in pbb_dict 
+    assert 'standard_name' in pbb_dict
     assert 'long_name' in pbb_dict
     assert 'coordinates' in pbb_dict
     assert 'data' in pbb_dict
@@ -48,7 +48,7 @@ def test_cbb_to_dict():
 
 def test_pbb_flags_to_dict():
     """ Unit test for the dict_config.pbb_flags_to_dict function. """
-    assert 'standard_name' in pbb_flags_dict 
+    assert 'standard_name' in pbb_flags_dict
     assert 'long_name' in pbb_flags_dict
     assert 'data' in pbb_flags_dict
     assert 'units' in pbb_flags_dict
