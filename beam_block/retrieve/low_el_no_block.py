@@ -20,6 +20,7 @@ from ..core import beam_block
 
 
 def lowest_elevation_no_blockage(radar, tif_file, beam_width=1.0,
+                                 az_start=0.0, az_end=360.0, az_size=360,
                                  elev_size=90, elev_start=0.0,
                                  elev_end=90.0):
     """
@@ -38,21 +39,28 @@ def lowest_elevation_no_blockage(radar, tif_file, beam_width=1.0,
     beam_width : float
         Radar's beam width for calculation.
         Default value is 1.0.
-    elev_size : int
-        Amount of elevation values between elev_start and elev_end.
-        Default value is 90.
+    az_start : float
+        Azimuth to start calculation at. Default is 0.0 degrees.
+    az_end: float
+        Azimuth to end calculation at. Default is 360.0 degrees.
+    az_size: int
+        Number of azimuth values between az_start and az_end. This can
+        also be seen as spacing. az_start=0.0, az_end=360.0 and az_size=360
+        is 1 degree spacing. Default is 360.
     elev_start : float
         Elevation angle to start the calculation at. Default value is
         0.0.
     elev_end : float
         Elevation angle to end the calculation at. Default value is
         90.0.
-
+    elev_size : int
+        Number of elevation values between elev_start and elev_end.
+        Default value is 90.
     Returns
     -------
     low_el_not_blocked_all : array
-        Array of elevation angles when less than 0.01 CBB fraction
-        is achieved.
+        Array of elevation angles for all azimuths when less than 0.01 CBB
+        fraction is achieved.
 
     Note
     ----
@@ -66,7 +74,7 @@ def lowest_elevation_no_blockage(radar, tif_file, beam_width=1.0,
 
     # Define needed values for the temporary rhi radar.
     low_el_list = []
-    azimuths = radar.azimuth['data']
+    azimuths = np.linspace(az_start, az_end, az_size)
     ngates = radar.ngates
     _range = radar.range['data']
     lat = radar.latitude['data']
@@ -105,7 +113,7 @@ def lowest_elevation_no_blockage(radar, tif_file, beam_width=1.0,
         low_el_list.append(one_az)
 
         # Deletes the rhi radar after it is used to save memory.
-        del radar
+        del rhi_radar
     # Puts all the elevations from each azimuth together.
     low_el_not_blocked_all = np.concatenate(low_el_list)
     return low_el_not_blocked_all
