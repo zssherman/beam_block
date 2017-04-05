@@ -13,6 +13,7 @@ Note: This code was adapted from Py-ART's pyart.testing.sample_files.
     SAMPLE_RADAR_JSON_FILE
     SAMPLE_RADAR_JSON_TO_NC_FILE
     SAMPLE_RADAR_BLOCK_DATA_FILE
+    SAMPLE_RADAR_LOW_ELEV_FILE
 
 """
 
@@ -27,3 +28,5 @@ SAMPLE_RADAR_JSON_TO_NC_FILE = os.path.join(
     DATA_PATH, 'sample_out_radar_from_json.nc')
 SAMPLE_RADAR_BLOCK_DATA_FILE = os.path.join(
     DATA_PATH, 'sample_out_radar_with_beam_blockage.nc')
+SAMPLE_RADAR_LOW_ELEV_FILE = os.path.join(
+    DATA_PATH, 'sample_low_elev_radar.nc')
