@@ -21,8 +21,8 @@ from ..core import beam_block
 
 def lowest_elevation_no_blockage(radar, tif_file, beam_width=1.0,
                                  az_start=0.0, az_end=360.0, az_size=360,
-                                 elev_size=90, elev_start=0.0,
-                                 elev_end=90.0):
+                                 elev_start=0.0, elev_end=90.0,
+                                 elev_size=90):
     """
     Lowest Elevation No Blockage Calculation
 
