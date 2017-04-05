@@ -82,7 +82,7 @@ def lowest_el_not_blocked_to_dict(low_el_not_blocked_all):
     low_el_not_blocked_dict = {}
     low_el_not_blocked_dict['units'] = 'Degrees'
     low_el_not_blocked_dict['data'] = low_el_not_blocked_all
-    low_el_not_blocked_dict['standard_name'] = 'low_el_not_blocked'
+    low_el_not_blocked_dict['standard_name'] = 'lowest_elev_not_blocked'
     low_el_not_blocked_dict['long_name'] = 'Lowest Elevation Not Blocked'
     low_el_not_blocked_dict['comment'] = 'Lowest elevation when each gate ' \
                                          'will achieve less than 0.01 CBB.'
