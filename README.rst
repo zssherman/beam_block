@@ -57,7 +57,7 @@ Radar Topography Mission) and check the box for which SRTM data you would liked
 to be searched. Data that is search is within your search criteria.
 
 Testing
-=======
+-------
 
 For unit tests in Beam Block, nosetests from the package `nose <http://nose.readthedocs.io/en/latest/>`_ is used.
 In order for nosetests to work with Beam Block, nose needs to be installed in
@@ -80,12 +80,6 @@ test_beam_block_radar.py in the tests folder in the core subpackage, simply
 type::
 
         nosetests '/home/zsherman/beam_block/beam_block/core/tests/test_beam_block_radar.py'
-
-Future
-------
-
-Will be adding a function that calculates the minimum elevation needed to
-achieve less than 0.01 CBB for every gate.
 
 Special Thanks
 --------------
