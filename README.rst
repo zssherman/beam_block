@@ -15,7 +15,11 @@ Dependencies
 - `Py-ART <http://arm-doe.github.io/pyart/>`_
 - `Wradlib <http://wradlib.org/wradlib-docs/latest/index.html>`_
 
-Also needs a special environment due to gdal::
+Beam block also needs a special environment due to gdal. Recommended would
+be to download `Anaconda <http://continuum.io/downloads>`_ and 
+`Miniconda <http://continuum.io/downloads>`_. Then by using `conda` from
+Miniconda to create the needed environment, use the following command
+in bash::
 
         conda create -n gdal_test -c conda-forge python=3.5 basemap gdal
 
