@@ -1,17 +1,17 @@
 # Note docstring below is as if beam_block will be added
 # to Py-ART in the future.
 
-# This code is based on code and help from Kai Muehlbauer,
-# Nick Guy and Scott Collis.
-
 """
-pyart.retrieve.beam_block_jsom
-=======================================
+pyart.retrieve.beam_block_json
+==============================
 
 Calculates partial beam block(PBB) and cumulative beam block(CBB)
 by using wradlib's beamblock and geotiff functions. PBB and CBB
 are then used to created flags when a certain beam block fraction
 is passed.
+
+This code is based on code and help from Kai Muehlbauer, Nick Guy
+and Scott Collis.
 
 .. autosummary::
     :toctreeL generated/
