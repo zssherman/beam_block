@@ -110,5 +110,9 @@ def main():
 
     pyart.io.write_cfradial(args.out_file, radar)
 
+    print('')
+    print('## A netCDF radar object with beam block fields has been created.')
+    print('')
+
 if __name__ == '__main__':
     main()
