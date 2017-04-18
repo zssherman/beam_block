@@ -8,14 +8,13 @@ utilizing the tools Py-ART and Wradlib, retrieves partial beam block fraction
 """
 
 
-DOCLINES = __doc__.split("\n")
-
-import os
-import sys
 import glob
 
 from numpy.distutils.core import setup
 from numpy.distutils.misc_util import Configuration
+
+
+DOCLINES = __doc__.split("\n")
 
 NAME = 'beam_block'
 MAINTAINER = 'Zach Sherman'
@@ -33,6 +32,7 @@ TESTS_REQUIRE = ['nose']
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
 def configuration(parent_package='', top_path=None):
+    """ Configuration of beam block package. """
     config = Configuration(None, parent_package, top_path)
     config.set_options(ignore_setup_xxx_py=True,
                        assume_default_configuration=True,
@@ -45,7 +45,7 @@ def configuration(parent_package='', top_path=None):
 
 
 def setup_package():
-
+    """ Setup of beam block package. """
     setup(
         name=NAME,
         maintainer=MAINTAINER,
@@ -56,7 +56,7 @@ def setup_package():
         platforms=PLATFORMS,
         configuration=configuration,
         include_package_data=True,
-      #  install_requires=INSTALL_REQUIRES,
+        # install_requires=INSTALL_REQUIRES,
         test_suite=TEST_SUITE,
         tests_require=TESTS_REQUIRE,
         scripts=SCRIPTS,
