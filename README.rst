@@ -21,7 +21,7 @@ be to download `Anaconda <http://continuum.io/downloads>`_ and
 Miniconda to create the needed environment, use the following command
 in bash::
 
-        conda create -n gdal_test -c conda-forge python=3.5 basemap gdal
+        conda create -n beam_block_env -c conda-forge python=3.5 basemap gdal
 
 Install
 -------
@@ -34,9 +34,9 @@ To install Beam Block, after cloning the repository::
 Bash Command
 ------------
 
-To run beam block in bash, first activate gdal_test environment::
+To run beam block in bash, first activate beam_block_env environment::
 
-        source activate gdal_test
+        source activate beam_block_env
 
 Then to run beam block based on a radar file::
 
@@ -67,7 +67,7 @@ For unit tests in Beam Block, nosetests from the package `nose <http://nose.read
 In order for nosetests to work with Beam Block, nose needs to be installed in
 the gdal_test environment. To do this in bash::
 
-        source activate gdal_test
+        source activate beam_block_env
         pip install nose -I
 
 To then run the unit tests in Beam Block::
