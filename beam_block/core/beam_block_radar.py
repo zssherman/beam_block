@@ -10,8 +10,10 @@ by using wradlib's beamblock and geotiff functions. PBB and CBB
 are then used to created flags when a certain beam block fraction
 is passed.
 
-This code is based on code and help from Kai Muehlbauer, Nick Guy
-and Scott Collis.
+This code is adapted from code written by Kai Muehlbauer:
+
+https://github.com/wradlib/wradlib/blob/master/notebooks/beamblockage/
+wradlib_beamblock.ipynb
 
 .. autosummary::
     :toctreeL generated/
