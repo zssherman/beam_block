@@ -44,7 +44,7 @@ def locate_block_pbb(pbb, pbb_threshold=0.01):
     return location_block_pbb
 
 
-def locate_block_cbb(cbb, cbb_threshold):
+def locate_block_cbb(cbb, cbb_threshold=0.01):
     """
     Finds location, ray gate, where cumulative beam blockage
     occurs above the given blockage threshold.
@@ -94,7 +94,7 @@ def locate_no_block_pbb(pbb, pbb_threshold=0.01):
     return location_no_block_pbb
 
 
-def locate_no_block_cbb(cbb, cbb_threshold):
+def locate_no_block_cbb(cbb, cbb_threshold=0.01):
     """
     Finds location, ray gate, where cumulative beam blockage
     occurs below the given blockage threshold.
