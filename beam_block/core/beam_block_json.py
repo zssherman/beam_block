@@ -15,6 +15,9 @@ This code is adapted from code written by Kai Muehlbauer:
 https://github.com/wradlib/wradlib/blob/master/notebooks/beamblockage/
 wradlib_beamblock.ipynb
 
+Note: The json format is based on X-SAPR variable format. Other radar formats
+may be added in the future.
+
 .. autosummary::
     :toctreeL generated/
     :template: dev_template.rst
@@ -119,8 +122,8 @@ def json_beam_block(json_data, tif_file,
         polcoords = np.dstack((x_pol, y_pol))
         rlimits = (x_pol.min(), y_pol.min(), x_pol.max(), y_pol.max())
         ind = wrl.util.find_bbox_indices(rastercoords, rlimits)
-        rastercoords = rastercoords[ind[1]:ind[3], ind[0]:ind[2], ...]
-        rastervalues = rastervalues[ind[1]:ind[3], ind[0]:ind[2]]
+        rastercoords = rastercoords[ind[0]:ind[3], ind[0]:ind[2], ...]
+        rastervalues = rastervalues[ind[0]:ind[3], ind[0]:ind[2]]
 
         # Map rastervalues to polar grid points.
         polarvalues = wrl.ipol.cart2irregular_spline(
