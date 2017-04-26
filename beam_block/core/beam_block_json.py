@@ -77,7 +77,7 @@ def json_beam_block(json_data, tif_file,
 
     """
 
-    variables = json_data['variables'] 
+    variables = json_data['variables']
 
     # Opening the tif file and getting the values ready to be
     # converted into polar values.
