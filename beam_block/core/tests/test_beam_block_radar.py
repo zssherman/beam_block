@@ -31,14 +31,15 @@ def test_beam_block_flags():
     cbb_existing = radar_bb_data.fields['cumulative_beam_block']['data']
 
     pbb_flags_existing = radar_bb_data.fields[
-        'partial_beam_block_flag']['data']
+        'partial_beam_block_flags']['data']
     cbb_flags_existing = radar_bb_data.fields[
-        'cumulative_beam_block_flag']['data']
-    pbb_threshold = 0.01
-    cbb_threshold = 0.01
+        'cumulative_beam_block_flags']['data']
+    no_block_thresh = 0.01
+    complete_block_thresh = 0.95
 
     pbb_flags, cbb_flags = beam_block.core.beam_block_flags(
-        pbb_existing, cbb_existing, pbb_threshold, cbb_threshold)
+        pbb_existing, cbb_existing, no_block_thresh,
+        complete_block_thresh)
 
     assert_almost_equal(pbb_flags, pbb_flags_existing, 3)
     assert_almost_equal(cbb_flags, cbb_flags_existing, 3)
