@@ -23,6 +23,12 @@ def main():
         'tif_file', type=str, help='Tif file to use as terrain data.')
     parser.add_argument(
         'out_file', type=str, help='Out file path and name to use.')
+    parser.add_argument(
+        '-nb', '--no_block_thresh', type=float, default=0.01,
+        help='Threshold where below the value is flagged not blocked.')
+    parser.add_argument(
+        '-cb', '--complete_block_thresh', type=float, default=0.95,
+        help='Threshold where above the value is flagged completely blocked.')
     args = parser.parse_args()
 
     print('')
@@ -35,7 +41,8 @@ def main():
         radar, args.tif_file, beam_width=args.beam_width)
 
     pbb_flags, cbb_flags = beam_block_radar.beam_block_flags(
-        pbb_all, cbb_all, 0.01, 0.01)
+        pbb_all, cbb_all, no_block_thresh=args.no_block_thresh,
+        complete_block_thresh=args.complete_block_thresh)
 
     pbb_dict = dict_config.pbb_to_dict(pbb_all)
     cbb_dict = dict_config.cbb_to_dict(cbb_all)
@@ -47,9 +54,9 @@ def main():
                     pbb_dict, replace_existing=True)
     radar.add_field('cumulative_beam_block',
                     cbb_dict, replace_existing=True)
-    radar.add_field('partial_beam_block_flag',
+    radar.add_field('partial_beam_block_flags',
                     pbb_flags_dict, replace_existing=True)
-    radar.add_field('cumulative_beam_block_flag',
+    radar.add_field('cumulative_beam_block_flags',
                     cbb_flags_dict, replace_existing=True)
 
     pyart.io.write_cfradial(args.out_file, radar)
