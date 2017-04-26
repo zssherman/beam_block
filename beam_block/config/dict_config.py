@@ -54,10 +54,10 @@ def pbb_flags_to_dict(pbb_flags):
     pbb_flags_dict = {}
     pbb_flags_dict['units'] = 'unitless'
     pbb_flags_dict['data'] = pbb_flags
-    pbb_flags_dict['standard_name'] = 'partial_beam_block_flag'
-    pbb_flags_dict['long_name'] = 'Partial Beam Block Flag'
-    pbb_flags_dict['comment'] = 'Partial beam block fraction flag, ' \
-                               '1 for flagged values, 0 for non-flagged.'
+    pbb_flags_dict['standard_name'] = 'partial_beam_block_flags'
+    pbb_flags_dict['long_name'] = 'Partial Beam Block Flags'
+    pbb_flags_dict['notes'] = '0: No Blockage, 1: Partial Blockage,' \
+                              ' 2: Complete Blockage'
     return pbb_flags_dict
 
 
@@ -68,10 +68,10 @@ def cbb_flags_to_dict(cbb_flags):
     cbb_flags_dict = {}
     cbb_flags_dict['units'] = 'unitless'
     cbb_flags_dict['data'] = cbb_flags
-    cbb_flags_dict['standard_name'] = 'cumulative_beam_block_flag'
-    cbb_flags_dict['long_name'] = 'Cumulative Beam Block Flag'
-    cbb_flags_dict['comment'] = 'Cumulative beam block fraction flag, ' \
-                               '1 for flagged values, 0 for non-flagged.'
+    cbb_flags_dict['standard_name'] = 'cumulative_beam_block_flags'
+    cbb_flags_dict['long_name'] = 'Cumulative Beam Block Flags'
+    cbb_flags_dict['notes'] = '0: No Blockage, 1: Partial Blockage,' \
+                              ' 2: Complete Blockage'
     return cbb_flags_dict
 
 
