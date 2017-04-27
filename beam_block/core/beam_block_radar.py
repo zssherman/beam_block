@@ -107,8 +107,8 @@ def beam_block(radar, tif_file,
         polcoords = np.dstack((x_pol, y_pol))
         rlimits = (x_pol.min(), y_pol.min(), x_pol.max(), y_pol.max())
         ind = wrl.util.find_bbox_indices(rastercoords, rlimits)
-        rastercoords = rastercoords[ind[0]:ind[3], ind[0]:ind[2], ...]
-        rastervalues = rastervalues[ind[0]:ind[3], ind[0]:ind[2]]
+        rastercoords = rastercoords[0:ind[3], ind[0]:ind[2], ...]
+        rastervalues = rastervalues[0:ind[3], ind[0]:ind[2]]
 
         # Map rastervalues to polar grid points.
         polarvalues = wrl.ipol.cart2irregular_spline(
