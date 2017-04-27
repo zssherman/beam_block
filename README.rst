@@ -3,9 +3,9 @@ Beam Block
 
 Using Wradlib and Py-ART to obtain partial beam block (PBB) and cumulative
 beam block (CBB) data. The data then can be used to create flags and also
-can be added as fields to an empty radar object or an existing radar object,
-if the existing radar object fields have the same shape as the beamblock
-data and flag fields.
+can be added as fields to an empty radar object. There is also a function
+that calculates the lowest elevation angle needed at each gate to achieve less
+than 0.01 cumulative beam blockage.
 
 Note: This project is still a work in progress.
 
@@ -47,9 +47,16 @@ To run beam block based on a json file::
         bb_from_json <json_file> <tif_file> <out_file>
 
 There is also an optional beam_width argument, with a default value of 1.0. To
-choose a beam_width value, the terminal command now becomes::
+choose a beam_width float value, the terminal command now becomes::
 
-        bb_from_radar -bw <beam_width_float> <radar_file> <tif_file> <out_file>
+        bb_from_radar -bw <value> <radar_file> <tif_file> <out_file>
+
+There are also two flag arguments no_block_thresh and complete_block_thresh,
+when determining the cutoff for no, partial and complete blockage for the flag
+values of 0, 1, 2. To change the default values of 0.01 (no_block_thresh) and
+0.95 (complete_block_thresh), the command is::
+
+        bb_from_radar <radar_file> <tif_file> <out_file> -nb <value> -cb <value>
 
 GeoTIFF Data
 ------------
@@ -83,7 +90,7 @@ If you would like to run nosetests only on a specific test file, for example
 test_beam_block_radar.py in the tests folder in the core subpackage, simply
 type::
 
-        nosetests '/home/zsherman/beam_block/beam_block/core/tests/test_beam_block_radar.py'
+        nosetests '/home/user/beam_block/beam_block/core/tests/test_beam_block_radar.py'
 
 Special Thanks
 --------------
