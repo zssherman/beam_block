@@ -1,6 +1,6 @@
 """
-pyart.retrieve.lowest_elevation_no_blockage
-===========================================
+beam_block.retrieve.lowest_elevation_no_blockage
+================================================
 
 Calculates the lowest elevation needed to achieve less than
 0.01 CBB fraction at every range gate.
