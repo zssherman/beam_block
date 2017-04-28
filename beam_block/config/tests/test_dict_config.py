@@ -69,7 +69,7 @@ def test_lowest_el_not_blocked_to_dict():
     """ Unit test for the dict_config.lowest_el_not_blocked_to_dict
     function. """
     low_el_not_blocked_all = radar_low_elev.fields[
-        'low_el_not_blocked']['data']
+        'lowest_elev_not_blocked']['data']
     low_el_not_blocked_dict = dict_config.lowest_el_not_blocked_to_dict(
         low_el_not_blocked_all)
     assert 'standard_name' in low_el_not_blocked_dict
